@@ -1,0 +1,105 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator & Caesar Cipher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #444;
+            color: #fff;
+            padding: 20px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1, h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            background-color: #333;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="number"], input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #passwordResult, #encryptResult, #decryptResult {
+            background-color: #555;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #passwordResult p, #encryptResult p, #decryptResult p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Password Generator & Caesar Cipher</h1>
+    <h2>Generate Random Password</h2>
+    <form id="passwordForm">
+        <label for="passwordLength">Password Length:</label>
+        <input type="number" id="passwordLength" name="passwordLength" min="6" max="20" value="12">
+        <button type="submit">Generate Password</button>
+    </form>
+    <div id="passwordResult"></div>
+
+    <h2>Encrypt & Decrypt Text</h2>
+    <form id="cipherForm">
+        <label for="textToEncrypt">Text to Encrypt:</label>
+        <input type="text" id="textToEncrypt" name="textToEncrypt">
+        <label for="shift">Shift (1-25):</label>
+        <input type="number" id="shift" name="shift" min="1" max="25" value="3">
+        <button type="submit">Encrypt Text</button>
+    </form>
+    <div id="encryptResult"></div>
+
+    <form id="decryptForm">
+        <label for="textToDecrypt">Text to Decrypt:</label>
+        <input type="text" id="textToDecrypt" name="textToDecrypt">
+        <label for="shiftDecrypt">Shift (1-25):</label>
+        <input type="number" id="shiftDecrypt" name="shiftDecrypt" min="1" max="25" value="3">
+        <button type="submit">Decrypt Text</button>
+    </form>
+    <div id="decryptResult"></div>
+
+    <script src="main.js"></script>
+</body>
+</html>
