@@ -1,6 +1,6 @@
 // main.js
 
-const apiUrl = 'https://rener-f28ir5ntv-hans-dev-dots-projects.vercel.app/'; // Ganti dengan URL serverless function Anda
+const apiUrl = 'https://rener-46hnfaq2i-hans-dev-dots-projects.vercel.app/'; // Ganti dengan URL serverless function Anda
 
 const passwordForm = document.getElementById('passwordForm');
 const passwordLengthInput = document.getElementById('passwordLength');
