@@ -1,132 +1,180 @@
-// main.js
-
-document.addEventListener('DOMContentLoaded', () => {
-    const apiUrl = 'https://rener-46hnfaq2i-hans-dev-dots-projects.vercel.app/'; // Ganti dengan URL serverless function Anda
+document.addEventListener('DOMContentLoaded', async () => {
+    const apiUrl = 'https://generators-rix6txmew-andres-projects-13420832.vercel.app/';
 
     const passwordForm = document.getElementById('passwordForm');
     const passwordLengthInput = document.getElementById('passwordLength');
     const passwordResultDiv = document.getElementById('passwordResult');
-
-    const cipherForm = document.getElementById('cipherForm');
-    const textToEncryptInput = document.getElementById('textToEncrypt');
-    const shiftInput = document.getElementById('shift');
-    const encryptResultDiv = document.getElementById('encryptResult');
 
     const decryptForm = document.getElementById('decryptForm');
     const textToDecryptInput = document.getElementById('textToDecrypt');
     const shiftDecryptInput = document.getElementById('shiftDecrypt');
     const decryptResultDiv = document.getElementById('decryptResult');
 
-    passwordForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+    const encryptForm = document.getElementById('encryptForm'); // Tambahkan ini
+    const textToEncryptInput = document.getElementById('textToEncrypt'); // Tambahkan ini
+    const shiftEncryptInput = document.getElementById('shiftEncrypt'); // Tambahkan ini
+    const encryptResultDiv = document.getElementById('encryptResult'); // Tambahkan ini
 
-        const passwordLength = parseInt(passwordLengthInput.value, 10);
-        console.log(`Submitting password form with length: ${passwordLength}`);
+    if (passwordForm) {
+        passwordForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
 
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ passwordLength })
-            });
+            const passwordLength = parseInt(passwordLengthInput.value, 10);
+            console.log(`Submitting password form with length: ${passwordLength}`);
 
-            console.log('Password generation request sent');
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (isNaN(passwordLength) || passwordLength <= 0) {
+                console.error('Invalid password length:', passwordLength);
+                passwordResultDiv.textContent = 'Invalid password length';
+                return;
             }
 
-            const data = await response.json();
-            console.log('Password generation response received:', data);
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'generate',
+                        length: passwordLength
+                    })
+                });
 
-            const { password } = data;
+                console.log('Password generation request sent');
 
-            // Tampilkan hasil password di dalam div
-            passwordResultDiv.innerHTML = `
-                <p><strong>Generated Password:</strong> ${password}</p>
-            `;
-        } catch (error) {
-            console.error('Error:', error);
-            // Tangani error jika terjadi
-            passwordResultDiv.textContent = 'Error fetching data';
-        }
-    });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error response from server:', errorData);
+                    throw new Error('Network response was not ok');
+                }
 
-    cipherForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
+                const data = await response.json();
+                console.log('Password generation response received:', data);
 
-        const textToEncrypt = textToEncryptInput.value;
-        const shift = parseInt(shiftInput.value, 10);
-        console.log(`Submitting encryption form with text: ${textToEncrypt} and shift: ${shift}`);
+                const { password } = data;
 
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ textToEncrypt, shift })
-            });
+                passwordResultDiv.innerHTML = `
+                    <p><strong>Generated Password:</strong> ${password}</p>
+                `;
 
-            console.log('Encryption request sent');
+            } catch (error) {
+                console.error('Error:', error);
+                passwordResultDiv.textContent = 'Error fetching data';
+            }
+        });
+    }
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+    if (decryptForm) {
+        decryptForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const textToDecrypt = textToDecryptInput.value;
+            const shiftDecrypt = parseInt(shiftDecryptInput.value, 10);
+            console.log(`Submitting decrypt form with text: ${textToDecrypt} and shift: ${shiftDecrypt}`);
+
+            if (textToDecrypt.trim() === '') {
+                console.error('Text to decrypt is empty');
+                decryptResultDiv.textContent = 'Text to decrypt is empty';
+                return;
             }
 
-            const data = await response.json();
-            console.log('Encryption response received:', data);
-
-            const { encryptedText } = data;
-
-            // Tampilkan hasil enkripsi di dalam div
-            encryptResultDiv.innerHTML = `
-                <p><strong>Encrypted Text:</strong> ${encryptedText}</p>
-            `;
-        } catch (error) {
-            console.error('Error:', error);
-            // Tangani error jika terjadi
-            encryptResultDiv.textContent = 'Error fetching data';
-        }
-    });
-
-    decryptForm.addEventListener('submit', async function(event) {
-        event.preventDefault();
-
-        const textToDecrypt = textToDecryptInput.value;
-        const shiftDecrypt = parseInt(shiftDecryptInput.value, 10);
-        console.log(`Submitting decryption form with text: ${textToDecrypt} and shift: ${shiftDecrypt}`);
-
-        try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ textToDecrypt, shift: shiftDecrypt })
-            });
-
-            console.log('Decryption request sent');
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+            if (isNaN(shiftDecrypt) || shiftDecrypt < 1 || shiftDecrypt > 25) {
+                console.error('Invalid shift value for decryption:', shiftDecrypt);
+                decryptResultDiv.textContent = 'Shift for decryption must be between 1 and 25';
+                return;
             }
 
-            const data = await response.json();
-            console.log('Decryption response received:', data);
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'decrypt',
+                        ciphertext: textToDecrypt,
+                        shift: shiftDecrypt
+                    })
+                });
 
-            const { decryptedText } = data;
+                console.log('Decryption request sent');
 
-            // Tampilkan hasil dekripsi di dalam div
-            decryptResultDiv.innerHTML = `
-                <p><strong>Decrypted Text:</strong> ${decryptedText}</p>
-            `;
-        } catch (error) {
-            console.error('Error:', error);
-            // Tangani error jika terjadi
-            decryptResultDiv.textContent = 'Error fetching data';
-        }
-    });
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error response from server:', errorData);
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('Decryption response received:', data);
+
+                const { plaintext } = data;
+
+                decryptResultDiv.innerHTML = `
+                    <p><strong>Decrypted Text:</strong> ${plaintext}</p>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                decryptResultDiv.textContent = 'Error fetching data';
+            }
+        });
+    }
+
+    if (encryptForm) { // Tambahkan ini
+        encryptForm.addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const textToEncrypt = textToEncryptInput.value;
+            const shiftEncrypt = parseInt(shiftEncryptInput.value, 10);
+            console.log(`Submitting encrypt form with text: ${textToEncrypt} and shift: ${shiftEncrypt}`);
+
+            if (textToEncrypt.trim() === '') {
+                console.error('Text to encrypt is empty');
+                encryptResultDiv.textContent = 'Text to encrypt is empty';
+                return;
+            }
+
+            if (isNaN(shiftEncrypt) || shiftEncrypt < 1 || shiftEncrypt > 25) {
+                console.error('Invalid shift value for encryption:', shiftEncrypt);
+                encryptResultDiv.textContent = 'Shift for encryption must be between 1 and 25';
+                return;
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        action: 'encrypt',
+                        plaintext: textToEncrypt,
+                        shift: shiftEncrypt
+                    })
+                });
+
+                console.log('Encryption request sent');
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    console.error('Error response from server:', errorData);
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                console.log('Encryption response received:', data);
+
+                const { ciphertext } = data;
+
+                encryptResultDiv.innerHTML = `
+                    <p><strong>Encrypted Text:</strong> ${ciphertext}</p>
+                `;
+
+            } catch (error) {
+                console.error('Error:', error);
+                encryptResultDiv.textContent = 'Error fetching data';
+            }
+        });
+    }
 });

@@ -1,0 +1,163 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #161F32;
+    color: #fff;
+    padding: 20px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-image:url('/red-moon-bg.jpg');
+    background-size:cover;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.logo-container {
+    margin-right: 10px; /* Jarak antara logo dengan teks */
+}
+
+.logo-container img {
+    height: 300px; /* Ukuran logo yang diinginkan */
+    width: auto;
+}
+
+@media screen and (min-width: 768px) {
+    .logo-container img {
+        height: 100px; /* Ukuran logo untuk tampilan medium */
+    }
+}
+
+h1, h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display:grid;
+    width: 100%;
+    color:#161F32;
+    max-width: 400px;
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="number"], input[type="text"], button {
+    width: 100%;
+    color:black;
+    background-color: #CFD2DA;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: rgb(22, 31, 50);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: blue;
+}
+
+.result-container {
+    background-color: white; /* Warna abu-abu gelap */
+    color: black; /* Warna teks putih untuk kontras */
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 400px;
+    overflow-wrap: break-word;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.result-container p {
+    margin: 5px 0;
+    word-wrap: break-word;
+}
+
+.result-container:hover {
+    transform: scale(1.02);
+}
+
+
+@media screen and (min-width: 768px) {
+    form {
+        grid-template-columns: repeat(2, 1fr); /* Dua kolom */
+    }
+}
+
+footer {
+    background-color: #161F32;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.social-icons {
+    margin-top: 5px;
+}
+
+.social-icons img {
+    width: 30px; /* Ubah ukuran ikon sesuai kebutuhan */
+    height: auto;
+    margin: 0 5px;
+}
+
+#usage-guide {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#usage-guide h2 {
+    color: #161F32;
+    border-bottom: 2px solid #161F32;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+#usage-guide ol {
+    list-style-type: decimal;
+    margin-left: 20px;
+}
+
+#usage-guide ol li {
+    margin-bottom: 10px;
+}
+
+#usage-guide strong {
+    font-weight: bold;
+}
+
+#usage-guide p {
+    margin-bottom: 15px;
+}
+
